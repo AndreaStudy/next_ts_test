@@ -15,7 +15,7 @@ type Topic = {
 
 export default async function RootLayout({ children, }: { children: React.ReactNode }) {
   
-  const response = await fetch('http://localhost:9999/topics', { cache: 'no-store' });
+  const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/topics', { cache: 'no-store' });
   const topics = await response.json();
 
   return (

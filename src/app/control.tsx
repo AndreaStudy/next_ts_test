@@ -1,10 +1,11 @@
 "use client"
 import Link from "next/link"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 
 export function Control() {
   
   const params = useParams();
+  const router = useRouter();
   const id = params.id
   
   return (
@@ -13,7 +14,17 @@ export function Control() {
       {id &&
         <>
           <li><Link href={"/update/"+id}>Update</Link></li>
-          <li><input type="button" value="delete" /></li>
+          <li>
+            <input type="button" value="delete" onClick={() => {
+            const options = {method: 'DELETE'}
+            fetch(process.env.NEXT_PUBLIC_API_URL+`/topics/` + id, options)
+              .then(response => response.json())
+              .then(result => {
+                router.refresh();
+                router.push('/')
+              });
+            }} />
+          </li>
         </>
       }
       
